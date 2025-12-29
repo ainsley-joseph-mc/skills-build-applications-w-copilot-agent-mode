@@ -19,6 +19,7 @@ from django.urls import path, include
 from rest_framework import routers
 from . import views
 
+
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'teams', views.TeamViewSet)
@@ -27,8 +28,11 @@ router.register(r'workouts', views.WorkoutViewSet)
 router.register(r'leaderboard', views.LeaderboardViewSet)
 
 
+
+from django.views.generic import RedirectView
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.api_root, name='api-root'),
-    path('', include(router.urls)),
+    path('api/', views.api_root, name='api-root'),
+    path('api/', include(router.urls)),
+    path('', RedirectView.as_view(url='/api/', permanent=False)),
 ]
